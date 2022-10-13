@@ -11,13 +11,13 @@ jobs:
     runs-on: macOS-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Test
-        run: xcodebuild test -project XCTestExample.xcodeproj/ -scheme XCTestExample -resultBundlePath TestResults -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 8"
+        run: xcodebuild test -project XCTestExample.xcodeproj/ -scheme XCTestExample -destination "'platform=iOS Simulator,name=iPhone 12,OS=15.0'" | xcpretty && exit ${PIPESTATUS[0]}
+        #-resultBundlePath TestResults -sdk iphonesimulator 
         
-        
-      - uses: kishikawakatsumi/xcresulttool@v1.3.0
-        with:
-          path: TestResults.xcresult
-        if: success() || failure()
+      #- uses: kishikawakatsumi/xcresulttool@v1.3.0
+      #  with:
+      #    path: TestResults.xcresult
+      #  if: success() || failure()
