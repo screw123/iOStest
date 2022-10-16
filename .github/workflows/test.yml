@@ -23,6 +23,17 @@ jobs:
           p12-file-base64: ${{ secrets.CERTIFICATE_P12 }}
           p12-password: ${{ secrets.CERTIFICATE_P12_PW }}
           
+      - name: Build
+        uses: mxcl/xcodebuild@v1
+        with:
+          #xcode: 14
+          platform: iOS
+          action: build
+          configuration: release
+          code-sign-certificate: ${{ secrets.CERTIFICATE_P12 }}
+          code-sign-certificate-passphrase: ${{ secrets.CERTIFICATE_P12_PW }}
+          
+          
           
       #- uses: kishikawakatsumi/xcresulttool@v1.3.0
       #  with:
