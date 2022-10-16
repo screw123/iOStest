@@ -30,9 +30,9 @@ jobs:
           platform: iOS
           action: build
           configuration: release
-          code-sign-certificate: ${{ secrets.CERTIFICATE_P12 }}
-          code-sign-certificate-passphrase: ${{ secrets.CERTIFICATE_P12_PW }}
-          
+          #code-sign-certificate: ${{ secrets.CERTIFICATE_P12 }}
+          #code-sign-certificate-passphrase: ${{ secrets.CERTIFICATE_P12_PW }}
+          #mobile-provisioning-profiles-base64: ${{ secrets.PROVISIONING_PROFILE }}
           
           
       #- uses: kishikawakatsumi/xcresulttool@v1.3.0
