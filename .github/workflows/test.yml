@@ -13,10 +13,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Test
+      - name: Run XCTest and XCUITest
         run: xcodebuild test -project XCTestExample.xcodeproj/ -scheme XCTestExample -destination "platform=iOS Simulator,name=iPhone 12,OS=15.2" | xcpretty && exit ${PIPESTATUS[0]}
         #-resultBundlePath TestResults -sdk iphonesimulator 
-        
+      
+      - name: Import P12 cert into Mac keychain
+        uses: apple-actions/import-codesign-certs@v1
+        with: 
+          p12-file-base64: ${{ secrets.CERTIFICATE_P12 }}
+          p12-password: ${{ secrets.CERTIFICATE_P12_PW }}
+          
+          
       #- uses: kishikawakatsumi/xcresulttool@v1.3.0
       #  with:
       #    path: TestResults.xcresult
