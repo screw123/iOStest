@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run XCTest and XCUITest
-        run: xcodebuild test -project XCTestExample.xcodeproj -scheme XCTestExample -destination "platform=iOS Simulator,name=iPhone 12,OS=15.2" -resultBundlePath TestResults | xcpretty && exit ${PIPESTATUS[0]}
+        run: xcodebuild test -project XCTestExample.xcodeproj -scheme XCTestExample -destination "platform=iOS Simulator,name=iPhone 13" -resultBundlePath TestResults | xcpretty && exit ${PIPESTATUS[0]}
       
       - name: Process test results
         uses: kishikawakatsumi/xcresulttool@v1
