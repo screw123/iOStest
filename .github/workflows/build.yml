@@ -1,0 +1,41 @@
+name: Swift Test and Build
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macOS-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Run XCTest and XCUITest
+        run: xcodebuild test -project XCTestExample.xcodeproj -scheme XCTestExample -destination "platform=iOS Simulator,name=iPhone 12,OS=15.2" -resultBundlePath TestResults | xcpretty && exit ${PIPESTATUS[0]}
+      
+      - name: Process test results
+        uses: kishikawakatsumi/xcresulttool@v1
+        with:
+          path: TestResults.xcresult
+        if: success() || failure()
+           
+      - name: Build
+        uses: yukiarrr/ios-build-action@v1.5.0
+        with:
+          project-path: XCTestExample.xcodeproj
+          p12-base64: ${{ secrets.CERTIFICATE_P12 }}
+          certificate-password: ${{ secrets.CERTIFICATE_P12_PW }}
+          mobileprovision-base64: ${{ secrets.PROVISIONING_PROFILE }}
+          code-signing-identity: ${{ secrets.CODE_SIGNING_ID }}
+          team-id: ${{ secrets.TEAM_ID }}
+          export-method: development
+          output-path: ./XCTestExample.ipa
+      
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: XCTestExample.ipa
+          path: ./XCTestExample.ipa
+    
